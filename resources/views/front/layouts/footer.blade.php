@@ -31,7 +31,7 @@
 					<ul>
 						<li><a href="{{route('login')}}" title="Sell">Login</a></li>
 						<li><a href="{{route('register')}}" title="Advertise">Register</a></li>
-						<li><a href="#" title="Contact Us">My Orders</a></li>						
+						<li><a href="{{route('orders.myOrders')}}" title="Contact Us">My Orders</a></li>						
 					</ul>
 				</div>
 			</div>			

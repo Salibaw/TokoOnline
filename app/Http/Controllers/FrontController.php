@@ -14,21 +14,22 @@ class FrontController extends Controller
         $products = Product::with('images')->where('status', 1)->get();
         return view('front.home', compact('categories', 'products'));
     }
-    public function showShopPage(Request $request)
-    {
-        
-        // Get the category from the request (if present)
-        $categories = $request->input('categories');
-        // Fetch products based on category
-        if ($categories) {
-            $products = Product::where('categories', $categories)->get();
-        } else {
-            $products = Product::all(); // Show all products if no category is selected
-        }
 
-        // Return the view with the products
-        return view('front.shop', compact('products','categories','products'));
+    public function shop($subcategorySlug)
+    {
+        // Dapatkan subkategori berdasarkan slug
+        $subcategory = Subcategory::where('slug', $subcategorySlug)->firstOrFail();
+
+        // Dapatkan kategori
+        $categories = Category::where('status', 1)->with('subcategories')->get();
+
+        // Dapatkan produk berdasarkan subkategori
+        $products = Product::where('sub_category_id', $subcategory->id)->paginate(12);
+
+        // Tampilkan view shop dengan data
+        return view('front.shop', compact('subcategory', 'categories', 'products'));
     }
+
     public function cart()
     {
         $categories = Category::where('status', 1)->with('subcategories')->get();

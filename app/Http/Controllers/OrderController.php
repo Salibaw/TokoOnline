@@ -1,28 +1,32 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index()
+    // Method to fetch and display user's orders
+    public function myOrders()
     {
-        $categories = Category::where('status', 1)->with('subcategories')->get(); 
-        $products = Product::with('images')->where('status', 1)->get();
-        $orders = Order::with('items.product')->latest()->get();
-        return view('front.orders.index', compact('orders','categories','products'));
+        // Get the orders associated with the authenticated user
+        $orders = Order::where('user_id', Auth::id())->get(); // Assuming the 'user_id' column exists in 'orders' table
+        
+        return view('front.orders.myorder', compact('orders'));
+    }
+    public function viewOrder(Order $order)
+{
+    // Ensure the order belongs to the authenticated user
+    if ($order->user_id != Auth::id()) {
+        abort(403, 'Unauthorized action.');
     }
 
-    public function show($id)
-    {
-        $categories = Category::where('status', 1)->with('subcategories')->get(); 
-        $products = Product::with('images')->where('status', 1)->get();
-        $order = Order::with('items.product')->findOrFail($id);
-        return view('front.orders.show', compact('order','categories','products'));
-    }
+    // Fetch the order details (you might need to adjust this depending on your DB structure)
+    $orderItems = $order->items; // Assuming an 'items' relationship on the Order model
+
+    return view('front.orders.view', compact('order', 'orderItems'));
 }
+
+}
+

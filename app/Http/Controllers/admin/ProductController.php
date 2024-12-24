@@ -91,6 +91,8 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|gte:price',
             'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'nullable|exists:sub_categories,id',
+            'is_featured' => 'required|in:Yes,No',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -149,7 +151,32 @@ class ProductController extends Controller
             ->take(4)
             ->get();
 
-        return view('front.detail', compact('product', 'relatedProducts','categories', 'subCategories', 'brands'));
+        return view('front.detail', compact('product', 'relatedProducts', 'categories', 'subCategories', 'brands'));
     }
+    public function sort(Request $request)
+    {
+        $query = Product::query();
+        // Check if category filter is applied
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+        // Fetch products with pagination
+        $products = $query->paginate(12);
+        // Fetch all categories to display in the sidebar
+        $categories = Category::all();
+
+        return view('products.index', compact('products', 'categories'));
+    }
+    // In ProductController.php
+    public function categoryProducts($category_id)
+    {
+        $categories = Category::all();
+        $category = Category::findOrFail($category_id); // Get the selected category
+        $products = Product::where('category_id', $category_id)->paginate(12); // Get products for the category
+
+        return view('front.shop', compact('products', 'categories', 'category'));
+    }
+
+
 
 }

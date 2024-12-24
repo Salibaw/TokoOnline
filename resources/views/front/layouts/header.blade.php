@@ -63,26 +63,34 @@
 							</span>
 						</div>
 					</form>
-
-					<!-- User Dropdown -->
 					<div class="dropdown">
 						@if (Auth::check())
 							<!-- Tampilkan jika sudah login -->
 							<a class="dropdown-toggle d-flex align-items-center" href="#" role="button" id="userMenu"
 								data-bs-toggle="dropdown" aria-expanded="false">
-								<img src="{{ asset('admin-assets/img/avatar5.png') }}" class="rounded-circle" alt="User"
-									width="40" height="40">
-								<span class="ml-2 text-white">{{ Auth::user()->name }}</span>
+								<!-- Display user profile photo or default if none exists -->
+								<img src="{{ asset('admin-assets/img/avatar.png') }}" alt="Profile" class="rounded-circle"
+									style="width: 40px; height: 40px; object-fit: cover;">
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-								<li class="dropdown-item text-muted">
-									{{ Auth::user()->email }}
+								<!-- Display Name -->
+								<li class="dropdown-item text-center text-muted">
+									<strong>{{ Auth::user()->name }}</strong>
 								</li>
-								<li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i
-											class="fas fa-user-cog mr-2"></i> Profile</a></li>
+								<li>
+									<a class="dropdown-item" href="{{ route('profile.edit') }}">
+										<i class="fas fa-user-cog mr-2"></i> Profile
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ route('profile.edit') }}">
+										<i class="fas fa-id-badge mr-2"></i> My Account
+									</a>
+								</li>
 								<li>
 									<hr class="dropdown-divider">
 								</li>
+								<!-- Logout Button -->
 								<li>
 									<form id="logout-form" action="{{ route('logout') }}" method="POST"
 										style="display: none;">
@@ -96,10 +104,12 @@
 							</ul>
 						@else
 							<!-- Tampilkan jika belum login -->
-							<a class="btn btn-primary mr-2" href="{{ route('login') }}"><i
-									class="fas fa-sign-in-alt mr-1"></i> Login</a>
-							<a class="btn btn-success" href="{{ route('register') }}"><i class="fas fa-user-plus mr-1"></i>
-								Register</a>
+							<a class="btn btn-primary mr-2" href="{{ route('login') }}">
+								<i class="fas fa-sign-in-alt mr-1"></i> Login
+							</a>
+							<a class="btn btn-success" href="{{ route('register') }}">
+								<i class="fas fa-user-plus mr-1"></i> Register
+							</a>
 						@endif
 					</div>
 				</div>

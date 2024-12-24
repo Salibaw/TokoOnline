@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\MidtransController;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 /*
@@ -26,15 +27,20 @@ use Illuminate\Http\Request;
 |
 */
 
+// Define the route for creating a Midtrans transaction
+
 Route::get('/', [FrontController::class, 'index'])->name('home');
-Route::get('/shop', [FrontController::class, 'showShopPage'])->name('front.shop');
+Route::get('/shop/{subcategorySlug}', [FrontController::class, 'shop'])->name('front.shop');
+Route::get('/shop/{category_id}', [ProductController::class, 'categoryProducts'])->name('front.shop.category');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+//Product Routes
 Route::get('/product/{id}', [ProductController::class, 'detail'])->name('product.detail');
+Route::get('/product', [ProductController::class, 'sort'])->name('products.index');
 //Route Cart
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
@@ -47,9 +53,14 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
     //Order Routes
-    Route::get('/order', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/order/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders')->middleware('auth');
+    Route::get('/my-orders/{order}', [OrderController::class, 'viewOrder'])->name('orders.viewOrder')->middleware('auth');
+    //Midtrans Routes
+    Route::post('/midtrans/create-transaction', [MidtransController::class, 'createTransaction'])->name('midtrans.createTransaction');
+
 });
+
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     // Category Routes

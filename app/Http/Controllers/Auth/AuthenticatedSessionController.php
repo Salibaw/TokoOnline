@@ -38,11 +38,14 @@ class AuthenticatedSessionController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-    }    protected function redirectPathByRole(string $role): string
+    }
+    protected function redirectPathByRole(string $role): string
     {
         switch ($role) {
             case 'admin':
                 return '/dashboard';
+            case 'user':
+                return '/';
             default:
                 return '/';
         }

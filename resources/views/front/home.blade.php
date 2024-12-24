@@ -40,7 +40,7 @@
                         <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
                         <!-- Add query parameter to filter by "Kids Fashion" -->
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', ['category' => 'kids-fashion']) }}">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', 'kids-fashion') }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Womens Fashion</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop',['category'=>'women-fashion']) }}">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', 'womens-fashion') }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop',['category'=>'mens-fashion','womens-fashion','kids-fashion']) }}">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', 'kids-fashion',) }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -179,8 +179,7 @@
                                 <div class="price mt-2">
                                     <span class="h5"><strong>Rp{{ number_format($product->price, 2) }}</strong></span>
                                     @if($product->compare_price)
-                                        <span
-                                            class="h6 text-underline"><del>Rp{{ number_format($product->compare_price, 2) }}</del></span>
+                                        <span class="h6 text-underline"><del>Rp{{ number_format($product->compare_price, 2) }}</del></span>
                                     @endif
                                 </div>
                             </div>
