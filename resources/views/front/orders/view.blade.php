@@ -16,7 +16,9 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Product</th>
+                        <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
                     </tr>
@@ -24,13 +26,25 @@
                 <tbody>
                     @foreach ($orderItems as $item)
                         <tr>
-                            <td>{{ $item->product->name }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->product->title }}</td>
+                            <td>Rp{{ number_format($item->price, 2) }}</td>
                             <td>{{ $item->quantity }}</td>
                             <td>Rp{{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <div class="text-end mt-4">
+                <h4 class="text-primary"><strong>Grand Total:</strong> <span
+                        class="text-success">Rp{{ number_format($order->grand_total, 2) }}</span></h4>
+            </div>
+        </div>
+        <div class="card-footer bg-light text-end">
+            <a href="{{ route('orders.myOrders') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Orders
+            </a>
+        </div>
         </div>
     </section>
 </main>

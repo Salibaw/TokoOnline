@@ -12,7 +12,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
+                            <th>No</th>
                             <th>Date</th>
                             <th>Total</th>
                             <th>Status</th>
@@ -22,7 +22,7 @@
                     <tbody>
                         @foreach ($orders as $order)
                             <tr>
-                                <td>{{ $order->order_id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $order->created_at->format('d M Y') }}</td>
                                 <td>Rp{{ number_format($order->grand_total, 0, ',', '.') }}</td>
                                 <td>{{ $order->status }}</td>

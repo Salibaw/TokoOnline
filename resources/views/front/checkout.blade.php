@@ -5,7 +5,12 @@
     <section class="section-checkout pt-4">
         <div class="container">
             <h2>Checkout</h2>
-            <form action="{{ route('checkout.process') }}" method="POST" id="checkout-form">
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            <form action="{{ route('checkout.process') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-8">
@@ -55,7 +60,8 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        <button type="button" class="btn btn-primary btn-block w-100 mt-2" id="place-order">Place Order</button>
+                        <input type="hidden" name="total" value="{{ $grandTotal }}">
+                        <button type="submit" class="btn btn-primary btn-block w-100 mt-2">Place Order</button>
                         <a href="{{ url('/cart') }}" class="btn btn-secondary w-100 mt-2">Back</a>
                     </div>
                 </div>
@@ -63,40 +69,4 @@
         </div>
     </section>
 </main>
-
-<script type="text/javascript">
-    document.getElementById('place-order').addEventListener('click', function () {
-        // Get the total amount from the form
-        var grandTotal = {{ $grandTotal }};
-        
-        // Send AJAX request to create the transaction
-        fetch("{{ route('midtrans.createTransaction') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            },
-            body: JSON.stringify({
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                address: document.getElementById('address').value,
-                phone: document.getElementById('phone').value,
-                grandTotal: grandTotal
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.snap_token) {
-                // Redirect to Midtrans payment page
-                window.location.href = `https://app.midtrans.com/snap/v1/transactions/${data.snap_token}`;
-            } else {
-                alert('Error creating transaction');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Something went wrong.');
-        });
-    });
-</script>
 @endsection

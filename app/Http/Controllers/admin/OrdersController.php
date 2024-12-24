@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -11,17 +14,21 @@ class OrdersController extends Controller
     public function index()
     {
         // Ambil semua order dari database
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        $brands = Brand::all();
         $orders = Order::orderBy('created_at', 'desc')->paginate(10);
 
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders','categories','subCategories', 'brands'));
     }
     public function show($id)
     {
-        // Ambil order dengan items dan produk terkait
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
         $order = Order::findOrFail($id);
         $orderItems = $order->items()->with('product')->get();
     
-        return view('admin.orders.show', compact('order', 'orderItems'));
+        return view('admin.orders.show', compact('order', 'orderItems','categories','subCategories'));
     }
     
     public function updateStatus(Request $request, $id)

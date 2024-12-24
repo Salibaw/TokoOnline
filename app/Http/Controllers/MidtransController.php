@@ -5,55 +5,58 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\Brand;
 use Midtrans\Transaction;
 use Illuminate\Support\Facades\Log;
 
 class MidtransController extends Controller
 {
-    public function __construct()
+    public function process(Request $request)
     {
-        // Set your Midtrans credentials
-        Config::$serverKey = 'SB-Mid-server-TzQym617_qWodH0hxqYiNt5r';
-        Config::$clientKey = 'Mid-client-LONJiWaPOVq7Qo8G';
-        Config::$isProduction = false; // Set to true for production environment
+
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        $brands = Brand::all();
+        // Konfigurasi Midtrans
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = true;
         Config::$is3ds = true;
-    }
 
-
-    public function createTransaction(Request $request)
-    {
-        $grandTotal = $request->input('grandTotal');
-        $orderId = 'ORDER' . time(); // Unique order ID
-
-        // Transaction details
+        // Data transaksi
         $transactionDetails = [
-            'order_id' => $orderId,
-            'gross_amount' => $grandTotal,
+            'order_id' => 'ORDER-' . time(),
+            'gross_amount' => $request->input('total'),
         ];
 
-        // Customer details
         $customerDetails = [
             'first_name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-            'shipping_address' => $request->input('address'),
+            'address' => $request->input('address'),
         ];
 
-        // Prepare the transaction
         $transaction = [
             'transaction_details' => $transactionDetails,
             'customer_details' => $customerDetails,
         ];
 
         try {
-            // Create Snap token
             $snapToken = Snap::getSnapToken($transaction);
-            return response()->json(['snap_token' => $snapToken]);
+
+            // Kirim ke view
+            return view('front.midtrans', [
+                'snapToken' => $snapToken,
+                'total' => $request->input('total'),
+                'customerDetails' => $customerDetails,
+                'categories' => $categories,
+                'subCategories' => $subCategories,
+                'brands' => $brands,
+            ]);
         } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Midtrans error: ' . $e->getMessage());
-            return response()->json(['error' => 'Something went wrong. Please try again later.']);
+            return back()->with('error', $e->getMessage());
         }
     }
 

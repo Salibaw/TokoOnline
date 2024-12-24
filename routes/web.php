@@ -41,11 +41,6 @@ Route::middleware('auth')->group(function () {
 //Product Routes
 Route::get('/product/{id}', [ProductController::class, 'detail'])->name('product.detail');
 Route::get('/product', [ProductController::class, 'sort'])->name('products.index');
-//Route Cart
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -56,8 +51,13 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders')->middleware('auth');
     Route::get('/my-orders/{order}', [OrderController::class, 'viewOrder'])->name('orders.viewOrder')->middleware('auth');
     //Midtrans Routes
-    Route::post('/midtrans/create-transaction', [MidtransController::class, 'createTransaction'])->name('midtrans.createTransaction');
-
+    Route::post('/checkout/process', [MidtransController::class, 'process'])->name('checkout.process');
+    //Route Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    
 });
 
 
