@@ -17,18 +17,21 @@ class FrontController extends Controller
 
     public function shop($subcategorySlug)
     {
-        // Dapatkan subkategori berdasarkan slug
         $subcategory = Subcategory::where('slug', $subcategorySlug)->firstOrFail();
-
-        // Dapatkan kategori
         $categories = Category::where('status', 1)->with('subcategories')->get();
-
-        // Dapatkan produk berdasarkan subkategori
         $products = Product::where('sub_category_id', $subcategory->id)->paginate(12);
 
-        // Tampilkan view shop dengan data
         return view('front.shop', compact('subcategory', 'categories', 'products'));
     }
+    public function showCategoryProducts(Category $category)
+    {
+        $products = Product::where('category_id', $category->id)->paginate(12);
+
+        $categories = Category::with('subcategories')->get();
+
+        return view('front.shop', compact('category', 'products', 'categories'));
+    }
+
 
     public function cart()
     {

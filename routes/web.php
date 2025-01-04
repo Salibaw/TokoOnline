@@ -31,7 +31,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/shop/{subcategorySlug}', [FrontController::class, 'shop'])->name('front.shop');
-Route::get('/shop/{category_id}', [ProductController::class, 'categoryProducts'])->name('front.shop.category');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,7 +46,6 @@ Route::get('/product', [ProductController::class, 'sort'])->name('products.index
 Route::middleware(['auth', 'role:user'])->group(function () {
     // Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
     //Order Routes
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.myOrders')->middleware('auth');
     Route::get('/my-orders/{order}', [OrderController::class, 'viewOrder'])->name('orders.viewOrder')->middleware('auth');
@@ -62,7 +61,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'dashboardData'])->name('dashboard');
     // Category Routes
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');

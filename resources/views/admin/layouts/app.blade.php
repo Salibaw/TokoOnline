@@ -98,7 +98,6 @@
 	<script src="{{asset('admin-assets/plugins/dropzone/min/dropzone.min.js')}}"></script>
 	<script src="{{asset('admin-assets/plugins/summernote/summernote.min.js')}}"></script>
 	<!-- AdminLTE for demo purposes -->
-	<script src="{{asset('admin-assets/js/demo.js')}}"></script>
 
 	<script>
 		$.ajaxSetup({

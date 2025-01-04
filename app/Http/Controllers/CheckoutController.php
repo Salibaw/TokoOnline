@@ -25,7 +25,6 @@ class CheckoutController extends Controller
 }
 
     
-
 public function process(Request $request)
 {
     $request->validate([

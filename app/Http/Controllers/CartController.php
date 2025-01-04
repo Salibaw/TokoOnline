@@ -89,4 +89,5 @@ public function update(Request $request, $id)
 
         return redirect()->route('cart.index')->with('success', 'Product removed from cart.');
     }
+    
 }
