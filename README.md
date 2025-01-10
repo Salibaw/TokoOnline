@@ -9,10 +9,10 @@
 
 ### Clone Project
 ```
-git clone https://github.com/asyrofil-ula/ecommerce.git
+[git clone [https://github.com/Salibaw/TokoOnline.git]
 ```
 ```
-cd ecommerce
+cd TokoOnline
 ```
 ## Setup Project
 - install package 
