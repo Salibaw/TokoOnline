@@ -15,14 +15,24 @@ class FrontController extends Controller
         return view('front.home', compact('categories', 'products'));
     }
 
-    public function shop($subcategorySlug)
+    public function shopByCategory($categorySlug)
+    {
+        $category = Category::where('slug', $categorySlug)->firstOrFail();
+        $categories = Category::where('status', 1)->with('subcategories')->get();
+        
+        $products = Product::where('category_id', $category->id)->paginate(12);
+    
+        return view('front.shop', compact('category', 'categories', 'products'));
+    }
+    public function shopBySubcategory($subcategorySlug)
     {
         $subcategory = Subcategory::where('slug', $subcategorySlug)->firstOrFail();
         $categories = Category::where('status', 1)->with('subcategories')->get();
         $products = Product::where('sub_category_id', $subcategory->id)->paginate(12);
-
+    
         return view('front.shop', compact('subcategory', 'categories', 'products'));
     }
+        
     public function showCategoryProducts(Category $category)
     {
         $products = Product::where('category_id', $category->id)->paginate(12);

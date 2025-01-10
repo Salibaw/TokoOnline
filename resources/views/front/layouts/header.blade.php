@@ -65,15 +65,12 @@
 					</form>
 					<div class="dropdown">
 						@if (Auth::check())
-							<!-- Tampilkan jika sudah login -->
 							<a class="dropdown-toggle d-flex align-items-center" href="#" role="button" id="userMenu"
 								data-bs-toggle="dropdown" aria-expanded="false">
-								<!-- Display user profile photo or default if none exists -->
 								<img src="{{ asset('admin-assets/img/avatar.png') }}" alt="Profile" class="rounded-circle"
 									style="width: 40px; height: 40px; object-fit: cover;">
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-								<!-- Display Name -->
 								<li class="dropdown-item text-center text-muted">
 									<strong>{{ Auth::user()->name }}</strong>
 								</li>
@@ -90,7 +87,6 @@
 								<li>
 									<hr class="dropdown-divider">
 								</li>
-								<!-- Logout Button -->
 								<li>
 									<form id="logout-form" action="{{ route('logout') }}" method="POST"
 										style="display: none;">
@@ -131,25 +127,15 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						@foreach ($categories as $category)
-							<li class="nav-item dropdown">
-								<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-									aria-expanded="false">
+							<li class="nav-item">
+								<a class="btn btn-dark" href="{{ route('front.shop.category', $category->slug) }}">
 									{{ $category->name }}
-								</button>
-								@if ($category->subcategories->isNotEmpty())
-									<ul class="dropdown-menu dropdown-menu-dark">
-										@foreach ($category->subcategories as $subcategory)
-											<li><a class="dropdown-item nav-link"
-													href="{{ route('front.shop', $subcategory->slug) }}">
-													{{ $subcategory->name }}
-												</a></li>
-										@endforeach
-									</ul>
-								@endif
+								</a>
 							</li>
 						@endforeach
 					</ul>
 				</div>
+
 				<div class="right-nav py-0">
 					<a href="{{ route('cart.index') }}" class="ml-3 d-flex pt-2">
 						<i class="fas fa-shopping-cart text-primary"></i>

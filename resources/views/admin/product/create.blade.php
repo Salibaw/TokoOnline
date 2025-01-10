@@ -137,24 +137,11 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h4>Featured</h4>
-                            <select name="is_featured" id="is_featured" class="form-control">
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                            </select>
-                        </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a href="{{ route('product.index') }}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </div>
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('product.index') }}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </div>
     </form>
     @if ($errors->any())
         <div class="alert alert-danger">

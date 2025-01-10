@@ -40,7 +40,7 @@
                         <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
                         <!-- Add query parameter to filter by "Kids Fashion" -->
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', 'kids-fashion') }}">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop.category', 'kids-fashion') }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Womens Fashion</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', 'womens-fashion') }}">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop.category', 'womens-fashion') }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop', 'kids-fashion',) }}">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('front.shop.category', 'kids-fashion',) }}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -126,13 +126,11 @@
                     <div class="col-lg-3">
                         <div class="cat-card">
                             <div class="left">
-                                <!-- Gunakan image dari kategori -->
                                 <img src="{{ asset('uploads/' . $category->image) }}" alt="{{ $category->name }}"
                                     class="img-fluid">
                             </div>
                             <div class="right">
                                 <div class="cat-data">
-                                    <!-- Gunakan nama dan jumlah produk kategori -->
                                     <h2>{{ $category->name }}</h2>
                                     <p>{{ $category->products->count() }} Products</p>
                                 </div>

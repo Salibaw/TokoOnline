@@ -144,16 +144,6 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h4>Featured</h4>
-                            <select name="is_featured" id="is_featured" class="form-control">
-                                <option value="No" {{ $product->is_featured === 'No' ? 'selected' : '' }}>No</option>
-                                <option value="Yes" {{ $product->is_featured === 'Yes' ? 'selected' : '' }}>Yes</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
             </div>
 

@@ -30,7 +30,9 @@ use Illuminate\Http\Request;
 // Define the route for creating a Midtrans transaction
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
-Route::get('/shop/{subcategorySlug}', [FrontController::class, 'shop'])->name('front.shop');
+Route::get('/shop/category/{categorySlug}', [FrontController::class, 'shopByCategory'])->name('front.shop.category');
+Route::get('/shop/subcategory/{subcategorySlug}', [FrontController::class, 'shopBySubcategory'])->name('front.shop.subcategory');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -51,6 +53,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/my-orders/{order}', [OrderController::class, 'viewOrder'])->name('orders.viewOrder')->middleware('auth');
     //Midtrans Routes
     Route::post('/checkout/process', [MidtransController::class, 'process'])->name('checkout.process');
+    Route::post('/midtrans/notification', [MidtransController::class, 'notificationHandler']);
     //Route Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');

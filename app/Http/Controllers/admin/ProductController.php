@@ -46,15 +46,11 @@ class ProductController extends Controller
             'track_qty' => 'nullable|in:Yes,No',
             'qty' => 'nullable|integer|min:0',
             'status' => 'required|boolean',
-            'is_featured' => 'required|in:Yes,No',
-            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi array gambar
+            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' 
         ]);
 
-        // Simpan produk
-        // dd($validated);
         $product = Product::create($validated);
 
-        // Simpan gambar
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $index => $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
@@ -91,16 +87,13 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|gte:price',
             'category_id' => 'required|exists:categories,id',
+            'status' => 'required|boolean',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
-            'is_featured' => 'required|in:Yes,No',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // dd($validated);
-        // Update product data
         $product->update($validated);
 
-        // Handle new images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
@@ -124,15 +117,12 @@ class ProductController extends Controller
     }
     public function destroyImage($id)
     {
-        $image = ProductImage::findOrFail($id); // Pastikan tabel atau model gambar digunakan sesuai struktur database Anda
-
-        // Hapus file gambar dari penyimpanan
+        $image = ProductImage::findOrFail($id); 
         $imagePath = public_path('uploads/product/' . $image->image);
         if (file_exists($imagePath)) {
             unlink($imagePath);
         }
 
-        // Hapus record gambar dari database
         $image->delete();
 
         return response()->json([
@@ -156,23 +146,20 @@ class ProductController extends Controller
     public function sort(Request $request)
     {
         $query = Product::query();
-        // Check if category filter is applied
         if ($request->has('category')) {
             $query->where('category_id', $request->category);
         }
-        // Fetch products with pagination
         $products = $query->paginate(12);
-        // Fetch all categories to display in the sidebar
         $categories = Category::all();
 
         return view('products.index', compact('products', 'categories'));
     }
-    // In ProductController.php
+    
     public function categoryProducts($category_id)
     {
         $categories = Category::all();
-        $category = Category::findOrFail($category_id); // Get the selected category
-        $products = Product::where('category_id', $category_id)->paginate(12); // Get products for the category
+        $category = Category::findOrFail($category_id); 
+        $products = Product::where('category_id', $category_id)->paginate(12); 
 
         return view('front.shop', compact('products', 'categories', 'category'));
     }
